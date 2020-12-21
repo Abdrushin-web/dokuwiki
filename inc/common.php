@@ -495,7 +495,7 @@ function idfilter($id, $ue = true) {
  * @param string       $separator      parameter separator
  * @return string
  */
-function wl($id = '', $urlParameters = '', $absolute = false, $separator = '&amp;') {
+function    wl($id = '', $urlParameters = '', $absolute = false, $separator = '&amp;') {
     global $conf;
     if(is_array($urlParameters)) {
         if(isset($urlParameters['rev']) && !$urlParameters['rev']) unset($urlParameters['rev']);

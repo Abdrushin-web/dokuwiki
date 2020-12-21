@@ -1604,23 +1604,35 @@ function html_diff_navigationlink_base(string $difftype, string $linktype, array
             '</a>' . "\n";
 }
 
-function html_diff_another_page_navigationlink(string $difftype, string $name, string $id2, string $name2, string $content = '', bool $swap = false) : string
+function html_diff_another_page_navigationlink(
+    string $difftype,
+    string $name,
+    string $id2, string $name2,
+    string $content = '',
+    bool $swap = false,
+    string $id = ''
+    ) : string
 {
+    if (!$id)
+    {
+        global $INFO;
+        $id = $INFO['id'];
+    }
     if ($swap)
     {
         global $INFO;
-        $id = $id2;
+        $id1 = $id2;
         $urlparam =
         [
             'name' => urlencode($name2),
-            'id2' => $INFO['id'],
+            'id2' => $id,
             'name2' => urlencode($name)
         ];
         $linktype = 'difflinkswap';
     }
     else
     {
-        $id = '';
+        $id1 = $id;
         $urlparam =
         [
             'name' => urlencode($name),
@@ -1629,7 +1641,7 @@ function html_diff_another_page_navigationlink(string $difftype, string $name, s
         ];
         $linktype = 'difflink';
     }
-    return html_diff_navigationlink_base($difftype, $linktype, $urlparam, $content, $id);
+    return html_diff_navigationlink_base($difftype, $linktype, $urlparam, $content, $id1);
 }
 
 function html_diff_another_page_navigationlinks(string $difftype, string $name, string $id2, string $name2) : string

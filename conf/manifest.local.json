@@ -1,0 +1,28 @@
+{
+ "icons": [
+  {
+   "src": "/_media/logo.32.png",
+   "sizes": "32x32",
+   "type": "image/png"
+  },
+  {
+   "src": "/_media/logo.png",
+   "sizes": "77x77",
+   "type": "image/png"
+  },
+  {
+   "src": "/_media/logo.777.png",
+   "sizes": "777x777",
+   "type": "image/png"
+  },
+  {
+   "src": "/_media/logo.svg",
+   "sizes": "32x32 64x64 128x128 256x256 512x512 777x777",
+   "type": "image/svg+xml"
+  },
+  {
+   "src": "/_media/favicon.ico",
+   "sizes": "32x32 64x64 128x128 256x256 512x512"
+  }
+  ]
+}
