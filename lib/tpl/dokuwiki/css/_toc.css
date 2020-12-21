@@ -91,3 +91,6 @@
 [dir=rtl] .dokuwiki ul.idx li.closed {
     list-style-image: url(../../images/closed-rtl.png);
 }
+.dokuwiki ul.idx li.closed li {
+    display: none;
+}

@@ -126,6 +126,13 @@
     content: '\25B6\25B6';
 }
 
+.dokuwiki .diffoptions a.difflinkswap:before {
+    content: '\25C0\25B6';
+}
+.dokuwiki .diffoptions a.difflinkswap span {
+    display: none;
+}
+
 .dokuwiki .diffnav select {
     width: 60%;
     min-width: 9em;

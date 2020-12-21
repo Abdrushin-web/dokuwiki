@@ -230,6 +230,7 @@ $lang['yours']                 = 'Ihre Version';
 $lang['diff']                  = 'Zeige Unterschiede zu aktueller Version';
 $lang['diff2']                 = 'Zeige Unterschiede der ausgewählten Versionen';
 $lang['difflink']              = 'Link zu dieser Vergleichsansicht';
+$lang['difflinkswap']          = 'Tauschen Sie die linke und rechte Seite aus';
 $lang['diff_type']             = 'Unterschiede anzeigen:';
 $lang['diff_inline']           = 'Inline';
 $lang['diff_side']             = 'Nebeneinander';

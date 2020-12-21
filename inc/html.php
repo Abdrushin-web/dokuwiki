@@ -1183,6 +1183,12 @@ function html_diff_head($l_rev, $r_rev, $id = null, $media = false, $inline = fa
     return array($l_head, $r_head, $l_minor, $r_minor);
 }
 
+function html_wikilink_time(string $id, string $name = '') : string
+{
+    global $lang;
+    return html_wikilink($id, $name) . ' [' . dformat((int) @filemtime(wikiFN($id))) . ']';
+}
+
 /**
  * Show diff
  * between current page version and provided $text
@@ -1242,16 +1248,30 @@ function html_diff($text = '', $intro = true, $type = null) {
     $r_minor = '';
     $l_minor = '';
 
+    // check diff with another page
+    $id2 = $INPUT->str('id2');
+    if ($id2)
+        $text = rawWiki($id2, '');
+
     if($text) { // compare text to the most current revision
         $l_rev = '';
         $l_text = rawWiki($ID, '');
-        $l_head = '<a class="wikilink1" href="' . wl($ID) . '">' .
-            $ID . ' ' . dformat((int) @filemtime(wikiFN($ID))) . '</a> ' .
-            $lang['current'];
+        if ($id2)
+            $name = urldecode($INPUT->str('name'));
+        $l_head = html_wikilink_time($ID, $name).' '.$lang['current'];
 
         $r_rev = '';
-        $r_text = cleanText($text);
-        $r_head = $lang['yours'];
+        if ($id2)
+        {
+            $r_text = $text;
+            $name2 = urldecode($INPUT->str('name2'));
+            $r_head = html_wikilink_time($id2, $name2);
+        }
+        else
+        {
+            $r_text = cleanText($text);
+            $r_head = $lang['yours'];
+        }
     } else {
         if($rev1 && isset($rev2) && $rev2) { // two specific revisions wanted
             // make sure order is correct (older on the left)
@@ -1309,9 +1329,41 @@ function html_diff($text = '', $intro = true, $type = null) {
     /*
      * Display type and exact reference
      */
-    if(!$text) {
+    if ($id2)
+    {
         ptln('<div class="diffoptions group">');
 
+        $form = new Doku_Form(array('action' => wl()));
+        $form->addHidden('id', $ID);
+        $form->addHidden('name', $name);
+        $form->addHidden('id2', $id2);
+        $form->addHidden('name2', $name2);
+        $form->addHidden('do', 'diff');
+        $form->addElement(
+             form_makeListboxField(
+                 'difftype',
+                 array(
+                     'sidebyside' => $lang['diff_side'],
+                     'inline' => $lang['diff_inline']
+                 ),
+                 $type,
+                 $lang['diff_type'],
+                 '', '',
+                 array('class' => 'quickselect')
+             )
+        );
+        $form->addElement(form_makeButton('submit', 'diff', 'Go'));
+        $form->printForm();
+        
+        ptln('<p>');
+        // link to exactly this view
+        echo html_diff_another_page_navigationlinks($type, $name, $id2, $name2);
+        ptln('</p>');
+
+        ptln('</div>'); // .diffoptions
+    }
+    else if(!$text) {
+        ptln('<div class="diffoptions group">');
 
         $form = new Doku_Form(array('action' => wl()));
         $form->addHidden('id', $ID);
@@ -1352,22 +1404,26 @@ function html_diff($text = '', $intro = true, $type = null) {
         <?php
         //navigation and header
         if($type == 'inline') {
-            if(!$text) { ?>
-                <tr>
-                    <td class="diff-lineheader">-</td>
-                    <td class="diffnav"><?php echo $l_nav ?></td>
-                </tr>
+            if(!$text || $id2) {
+                if ($l_nav) { ?>
+                    <tr>
+                        <td class="diff-lineheader">-</td>
+                        <td class="diffnav"><?php echo $l_nav ?></td>
+                    </tr>
+                <?php } ?>
                 <tr>
                     <th class="diff-lineheader">-</th>
                     <th <?php echo $l_minor ?>>
                         <?php echo $l_head ?>
                     </th>
                 </tr>
+            <?php }
+            if ($r_nav) { ?>
+                <tr>
+                    <td class="diff-lineheader">+</td>
+                    <td class="diffnav"><?php echo $r_nav ?></td>
+                </tr>
             <?php } ?>
-            <tr>
-                <td class="diff-lineheader">+</td>
-                <td class="diffnav"><?php echo $r_nav ?></td>
-            </tr>
             <tr>
                 <th class="diff-lineheader">+</th>
                 <th <?php echo $r_minor ?>>
@@ -1534,6 +1590,56 @@ function html_diff_navigation($pagelog, $type, $l_rev, $r_rev) {
     return array($l_nav, $r_nav);
 }
 
+function html_diff_navigationlink_base(string $difftype, string $linktype, array &$urlparam, string $content = '') : string
+{
+    global $INFO, $lang;
+    $urlparam['do'] = 'diff';
+    $urlparam['difftype'] = $difftype;
+    $title = $lang[$linktype];
+    if (!$content)
+        $content = '<span>' . $title . '</span>';
+    $id = $INFO['id'];
+    return  '<a class="' . $linktype . '" href="' . wl($id, $urlparam) . '" title="' . $title . '">' .
+                $content.
+            '</a>' . "\n";
+}
+
+function html_diff_another_page_navigationlink(string $difftype, string $name, string $id2, string $name2, string $content = '', bool $swap = false) : string
+{
+    if ($swap)
+    {
+        global $INFO;
+        $id = $id2;
+        $urlparam =
+        [
+            'name' => urlencode($name2),
+            'id2' => $INFO['id'],
+            'name2' => urlencode($name)
+        ];
+        $linktype = 'difflinkswap';
+    }
+    else
+    {
+        $id = '';
+        $urlparam =
+        [
+            'name' => urlencode($name),
+            'id2' => $id2,
+            'name2' => urlencode($name2)
+        ];
+        $linktype = 'difflink';
+    }
+    return html_diff_navigationlink_base($difftype, $linktype, $urlparam, $content, $id);
+}
+
+function html_diff_another_page_navigationlinks(string $difftype, string $name, string $id2, string $name2) : string
+{
+    $links = html_diff_another_page_navigationlink($difftype, $name, $id2, $name2);
+    if ($id2)
+        $links = html_diff_another_page_navigationlink($difftype, $name, $id2, $name2, '', true) . ' | ' . $links;
+    return $links;
+}
+
 /**
  * Create html link to a diff defined by two revisions
  *
@@ -1543,25 +1649,19 @@ function html_diff_navigation($pagelog, $type, $l_rev, $r_rev) {
  * @param int $rrev newest revision or null for diff with current revision
  * @return string html of link to a diff
  */
-function html_diff_navigationlink($difftype, $linktype, $lrev, $rrev = null) {
-    global $ID, $lang;
+function html_diff_navigationlink(string $difftype, string $linktype, string $lrev, $rrev = null)
+{
     if(!$rrev) {
         $urlparam = array(
-            'do' => 'diff',
-            'rev' => $lrev,
-            'difftype' => $difftype,
+            'rev' => $lrev
         );
     } else {
         $urlparam = array(
-            'do' => 'diff',
             'rev2[0]' => $lrev,
             'rev2[1]' => $rrev,
-            'difftype' => $difftype,
         );
     }
-    return  '<a class="' . $linktype . '" href="' . wl($ID, $urlparam) . '" title="' . $lang[$linktype] . '">' .
-                '<span>' . $lang[$linktype] . '</span>' .
-            '</a>' . "\n";
+    return html_diff_navigationlink_base($difftype, $linktype, $urlparam);
 }
 
 /**
