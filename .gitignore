@@ -2,6 +2,7 @@
 /conf/acl.auth.php
 /conf/local.php
 /conf/local.protected.php
+/conf/local.php.bak.php
 /conf/users.auth.php
 /conf/user*.css
 /conf/user*.js
@@ -90,3 +91,6 @@ vendor/splitbrain/php-cli/screenshot*
 vendor/splitbrain/php-cli/generate-api.sh
 vendor/splitbrain/php-cli/apigen.neon
 
+.vs/
+.vscode/
+bak/

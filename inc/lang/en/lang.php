@@ -206,6 +206,7 @@ $lang['yours']                 = 'Your Version';
 $lang['diff']                  = 'Show differences to current revisions';
 $lang['diff2']                 = 'Show differences between selected revisions';
 $lang['difflink']              = 'Link to this comparison view';
+$lang['difflinkswap']          = 'Swap left and right side';
 $lang['diff_type']             = 'View differences:';
 $lang['diff_inline']           = 'Inline';
 $lang['diff_side']             = 'Side by Side';
