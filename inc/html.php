@@ -1256,8 +1256,9 @@ function html_diff($text = '', $intro = true, $type = null) {
     if($text) { // compare text to the most current revision
         $l_rev = '';
         $l_text = rawWiki($ID, '');
-        if ($id2)
-            $name = urldecode($INPUT->str('name'));
+        $name = $id2 ?
+            urldecode($INPUT->str('name')) :
+            '';
         $l_head = html_wikilink_time($ID, $name).' '.$lang['current'];
 
         $r_rev = '';
