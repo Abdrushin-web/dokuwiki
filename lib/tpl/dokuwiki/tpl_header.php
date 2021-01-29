@@ -70,7 +70,10 @@ if (!defined('DOKU_INC')) die();
     <?php if($conf['breadcrumbs'] || $conf['youarehere']): ?>
         <div class="breadcrumbs">
             <?php if($conf['youarehere']): ?>
-                <div class="youarehere"><?php tpl_youarehere() ?></div>
+                <div class="youarehere">
+                    <img class="logo" src="<?php echo tpl_getMediaFile([":logo.24.png"]) ?>"/>
+                    <span class="crumbs"><?php tpl_youarehere() ?></span>
+                </div>
             <?php endif ?>
             <?php if($conf['breadcrumbs']): ?>
                 <div class="trace"><?php tpl_breadcrumbs() ?></div>

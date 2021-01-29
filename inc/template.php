@@ -851,7 +851,7 @@ function tpl_userinfo() {
  * @param bool $ret return content instead of printing it
  * @return bool|string
  */
-function tpl_pageinfo($ret = false) {
+function tpl_pageinfo($ret = false, $includeFilePath = true) {
     global $conf;
     global $lang;
     global $INFO;
@@ -863,22 +863,28 @@ function tpl_pageinfo($ret = false) {
     }
 
     // prepare date and path
-    $fn = $INFO['filepath'];
-    if(!$conf['fullpath']) {
-        if($INFO['rev']) {
-            $fn = str_replace($conf['olddir'].'/', '', $fn);
-        } else {
-            $fn = str_replace($conf['datadir'].'/', '', $fn);
+    if ($includeFilePath)
+    {
+        $fn = $INFO['filepath'];
+        if(!$conf['fullpath']) {
+            if($INFO['rev']) {
+                $fn = str_replace($conf['olddir'].'/', '', $fn);
+            } else {
+                $fn = str_replace($conf['datadir'].'/', '', $fn);
+            }
         }
+        $fn   = utf8_decodeFN($fn);
     }
-    $fn   = utf8_decodeFN($fn);
     $date = dformat($INFO['lastmod']);
 
     // print it
     if($INFO['exists']) {
         $out = '';
-        $out .= '<bdi>'.$fn.'</bdi>';
-        $out .= ' · ';
+        if ($includeFilePath)
+        {
+            $out .= '<bdi>'.$fn.'</bdi>';
+            $out .= ' · ';
+        }
         $out .= $lang['lastmod'];
         $out .= ' ';
         $out .= $date;

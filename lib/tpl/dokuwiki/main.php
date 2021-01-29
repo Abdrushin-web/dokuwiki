@@ -60,7 +60,7 @@ $showSidebar = $hasSidebar && ($ACT=='show');
                     <?php tpl_includeFile('pagefooter.html') ?>
                 </div>
 
-                <div class="docInfo"><?php tpl_pageinfo() ?></div>
+                <div class="docInfo"><?php echo $ID ?><br/><?php tpl_pageinfo(false, false) ?></div>
 
                 <?php tpl_flush() ?>
             </div></div><!-- /content -->
