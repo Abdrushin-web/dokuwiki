@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora&display=swap');
+
+body
+{
+    font-family: 'Lora', serif;
+    font-size: 100%;
+}
+
+.sticky {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 5px 10px!important;
+    background: white;
+    z-index: 100;
+    border: 1px solid #eee;
+    box-shadow: 0 0 0.5em #999;
+    border-radius: 0 0 10px 0;
+}
+
+.breadcrumbs .logo {
+    display: none;
+}
+
+.sticky .logo {
+    display: inline;
+    margin-right: 10px;
+}
+
+.sticky .bchead {
+    display: none;
+}
+
+.pageId {
+  display: none;
+}
+
+@media only screen and (max-width: 480px) {
+    .breadcrumbs {
+        display: block!important;
+    }
+    .sticky {
+        padding: 5px!important;
+    }
+    .sticky .logo {
+        margin-right: 5px;
+    }
+
+    /*.breadcrumbs .trace {
+        display: none;
+    }*/
+}
+
+h1, h2, h3
+{
+    text-align: center;
+}
+
+.headings > h1
+{
+    text-align: initial;
+}
+
+.page > p,
+.level1 > p,
+.level2 > p,
+.level3 > p,
+.level4 > p,
+.level5 > p,
+.level6 > p,
+.export > p
+{
+    text-align: justify;
+    text-indent: 3em;
+
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+}
+
+em {
+    font-weight: bold;
+}
+
+/*
+ul
+{
+    padding: 0 1.5em;
+}
+.aside ul
+{
+    padding: 0;
+}
+
+li
+{
+    margin: 0 1.5em;
+}
+ul.idx li
+{
+    margin: 0 0 0 1.5em;
+}
+*/
+br.page-break-after:always ~ p {
+    border-top: 1px dashed
+}

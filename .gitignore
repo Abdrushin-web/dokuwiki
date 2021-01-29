@@ -1,11 +1,16 @@
 /conf/*.local.conf
+!/conf/entities.local.conf
+!/conf/interwiki.local.conf
+!/conf/mime.local.conf
 /conf/acl.auth.php
 /conf/local.php
 /conf/local.protected.php
 /conf/local.php.bak.php
 /conf/users.auth.php
 /conf/user*.css
+!/conf/userall.css
 /conf/user*.js
+!/conf/userscript.js
 /conf/words.aspell
 /conf/lang/*
 /conf/plugin_lang/*
