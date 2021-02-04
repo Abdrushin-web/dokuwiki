@@ -1251,7 +1251,15 @@ function html_diff($text = '', $intro = true, $type = null) {
     // check diff with another page
     $id2 = $INPUT->str('id2');
     if ($id2)
+    {
+        $perm2 = auth_quickaclcheck($id2);
+        if ($perm2 < AUTH_READ)
+        {
+            html_denied();
+            return;
+        }
         $text = rawWiki($id2, '');
+    }
 
     if($text) { // compare text to the most current revision
         $l_rev = '';
