@@ -3,6 +3,7 @@
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  *
+ * @author Luna Frax <lunafrax@gmail.com>
  * @author Domingo Redal <docxml@gmail.com>
  * @author Miguel Pagano <miguel.pagano@gmail.com>
  * @author Oscar M. Lage <r0sk10@gmail.com>
@@ -134,12 +135,14 @@ $lang['mailfrom']              = 'Dirección de correo electrónico para emails 
 $lang['mailreturnpath']        = 'Dirección de correo electrónico del destinatario para las notificaciones de no entrega';
 $lang['mailprefix']            = 'Asunto por defecto que se utilizará en mails automáticos.';
 $lang['htmlmail']              = 'Enviar correos electronicos en HTML con mejor aspecto pero mayor peso. Desactivar para enviar correos electronicos en texto plano.';
+$lang['dontlog']               = 'Deshabilitar inicio de sesión para este tipo de registros.';
 $lang['sitemap']               = 'Generar sitemap de Google (días)';
 $lang['rss_type']              = 'Tipo de resumen (feed) XML';
 $lang['rss_linkto']            = 'Feed XML enlaza a';
 $lang['rss_content']           = '¿Qué mostrar en los items del archivo XML?';
 $lang['rss_update']            = 'Intervalo de actualización de feed XML (segundos)';
 $lang['rss_show_summary']      = 'Feed XML muestra el resumen en el título';
+$lang['rss_show_deleted']      = 'Fuente XML Mostrar fuentes eliminadas';
 $lang['rss_media']             = '¿Qué tipo de cambios deberían aparecer en el feed XML?';
 $lang['rss_media_o_both']      = 'ambos';
 $lang['rss_media_o_pages']     = 'páginas';
@@ -168,6 +171,8 @@ $lang['search_fragment_o_starts_with'] = 'comienza con';
 $lang['search_fragment_o_ends_with'] = 'termina con';
 $lang['search_fragment_o_contains'] = 'contiene';
 $lang['trustedproxy']          = 'Confíe en los proxys de reenvío que coincidan con esta expresión regular acerca de la IP verdadera del cliente que referencia. El valor predeterminado coincide con las redes locales. Dejar en blanco para no confiar en ningún proxy.';
+$lang['_feature_flags']        = 'Configuración de características';
+$lang['defer_js']              = 'Aplazar JavaScript para que se ejecute después de que se haya analizado el HTML de la página. Mejora la velocidad percibida de la página, pero podría romper un pequeño número de complementos.';
 $lang['dnslookups']            = 'DokuWiki buscara los hostnames para usuarios editando las páginas con IP remota. Si usted tiene un servidor DNS bastante lento o que no funcione, favor de desactivar esta opción.';
 $lang['jquerycdn']             = '¿Deberían cargarse los ficheros de script jQuery y jQuery UI desde un CDN? Esto añade peticiones HTTP adicionales, pero los ficheros se pueden cargar más rápido y los usuarios pueden tenerlas ya almacenadas en caché.';
 $lang['jquerycdn_o_0']         = 'No CDN, sólo entrega local';

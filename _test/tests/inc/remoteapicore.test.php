@@ -3,6 +3,7 @@
 use dokuwiki\Remote\Api;
 use dokuwiki\Remote\ApiCore;
 use dokuwiki\test\mock\AuthPlugin;
+use dokuwiki\test\mock\AuthDeletePlugin;
 
 /**
  * Class remoteapicore_test
@@ -14,7 +15,7 @@ class remoteapicore_test extends DokuWikiTest {
     /** @var  Api */
     protected $remote;
 
-    public function setUp() {
+    public function setUp() : void {
         // we need a clean setup before each single test:
         DokuWikiTest::setUpBeforeClass();
 
@@ -34,7 +35,7 @@ class remoteapicore_test extends DokuWikiTest {
         $this->remote = new Api();
     }
 
-    public function tearDown() {
+    public function tearDown() : void {
         parent::tearDown();
 
         global $USERINFO;
@@ -452,7 +453,7 @@ You can use up to five different levels of',
     public function test_deleteUser()
     {
         global $conf, $auth;
-        $auth = new Mock_Auth_Plugin();
+        $auth = new AuthDeletePlugin();
         $conf['remote'] = 1;
         $conf['remoteuser'] = 'testuser';
         $_SERVER['REMOTE_USER'] = 'testuser';

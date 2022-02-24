@@ -3,6 +3,10 @@
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  *
+ * @author Eduardo Mozart de Oliveira <eduardomozart182@gmail.com>
+ * @author ANDRE BASSANI DE FREITAS <dedebf@gmail.com>
+ * @author Aleksandr Selivanov <alexgearbox@yandex.ru>
+ * @author Davi Jorge <davimoises2015@hotmail.com>
  * @author Schopf <pschopf@gmail.com>
  * @author Frederico Gonçalves Guimarães <frederico@teia.bio.br>
  * @author Márcio Gomes Gonçalves <gomes@metha.com.br>
@@ -132,6 +136,7 @@ $lang['js']['media_done_btn']  = 'Concluído';
 $lang['js']['media_drop']      = 'Arraste os arquivos até aqui para enviar';
 $lang['js']['media_cancel']    = 'remover';
 $lang['js']['media_overwrt']   = 'Sobrescrever arquivos existentes';
+$lang['js']['data_insecure']   = 'AVISO: Parece que seu diretório data não está corretamente seguro. Por favor, leia sobre <a href="https://www.dokuwiki.org/security#web_access_security">Web Access Security in DokuWiki</a>.';
 $lang['search_exact_match']    = 'Correspondência exata';
 $lang['search_starts_with']    = 'Começa com';
 $lang['search_ends_with']      = 'Termina com';
@@ -180,6 +185,7 @@ $lang['txt_upload']            = 'Selecione o arquivo a ser enviado:';
 $lang['txt_filename']          = 'Enviar como (opcional):';
 $lang['txt_overwrt']           = 'Substituir o arquivo existente';
 $lang['maxuploadsize']         = 'Tamanho máximo de %s por arquivo.';
+$lang['allowedmime']           = 'Lista de extensões de arquivo permitidas';
 $lang['lockedby']              = 'Atualmente bloqueada por:';
 $lang['lockexpire']            = 'O bloqueio expira em:';
 $lang['rssfailed']             = 'Ocorreu um erro durante a atualização dessa fonte: ';
@@ -233,7 +239,7 @@ $lang['created']               = 'criada';
 $lang['restored']              = 'a revisão anterior foi restaurada (%s)';
 $lang['external_edit']         = 'edição externa';
 $lang['summary']               = 'Resumo da edição';
-$lang['noflash']               = 'O <a href="http://www.adobe.com/products/flashplayer/">plug-in Adobe Flash</a> é necessário para exibir este conteúdo.';
+$lang['noflash']               = 'O <a href="http://get.adobe.com/flashplayer">plug-in Adobe Flash</a> é necessário para exibir este conteúdo.';
 $lang['download']              = 'Baixar o snippet';
 $lang['tools']                 = 'Ferramentas';
 $lang['user_tools']            = 'Ferramentas do usuário';
@@ -314,10 +320,13 @@ $lang['i_enableacl']           = 'Habilitar Lista de Controle de Acessos (recome
 $lang['i_superuser']           = 'Superusuário';
 $lang['i_problems']            = 'O instalador encontrou alguns problemas, indicados abaixo. Você não pode continuar até corrigi-los.';
 $lang['i_modified']            = 'Por questões de segurança, esse script funcionará apenas em uma instalação nova e não modificada do DokuWiki.
-Você pode extrair novamente os arquivos do pacote original ou consultar as <a href="http://dokuwiki.org/install">instruções de instalação do DokuWiki</a>.';
+Você pode extrair novamente os arquivos do pacote original ou consultar as <a href="https://www.dokuwiki.org/install">instruções de instalação do DokuWiki</a>.';
 $lang['i_funcna']              = 'A função PHP <code>%s</code> não está disponível. O seu host a mantém desabilitada por algum motivo?';
+$lang['i_disabled']            = 'Foi desativado pelo seu provedor.';
+$lang['i_funcnmail']           = '<b>Nota:</b> A função de correio PHP não está disponível. %s Se permanecer indisponível, você pode instalar o <a href="https://www.dokuwiki.org/plugin:smtp">plugin SMTP</a>.';
 $lang['i_phpver']              = 'A sua versão do PHP (<code>%s</code>) é inferior à necessária (<code>%s</code>). Você precisa atualizar a sua instalação do PHP.';
 $lang['i_mbfuncoverload']      = 'mbstring.func_overload precisa ser desabilitado no php.ini para executar o DokuWiki';
+$lang['i_urandom']             = 'O DokuWiki não pode criar números criptograficamente seguros para cookies. Você pode verificar as configurações do open_basedir no php.ini para obter o acesso <code> / dev / urandom </code> adequado.';
 $lang['i_permfail']            = 'O DokuWiki não tem permissão de escrita em <code>%s</code>. Você precisa corrigir as configurações de permissão nesse diretório!';
 $lang['i_confexists']          = '<code>%s</code> já existe';
 $lang['i_writeerr']            = 'Não foi possível criar <code>%s</code>. É necessário checar as permissões de arquivos/diretórios e criar o arquivo manualmente.';
@@ -368,6 +377,7 @@ $lang['media_perm_upload']     = 'Desculpe, mas você não tem privilégios sufi
 $lang['media_update']          = 'Enviar uma nova versão';
 $lang['media_restore']         = 'Restaurar esta versão';
 $lang['media_acl_warning']     = 'Essa lista pode não estar completa devido a restrições de ACL e páginas ocultas.';
+$lang['email_fail']            = 'PHP mail () ausente ou desativado. O seguinte email não foi enviado:';
 $lang['currentns']             = 'Domínio atual';
 $lang['searchresult']          = 'Resultado da Busca';
 $lang['plainhtml']             = 'HTML simples';

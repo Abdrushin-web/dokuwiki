@@ -9,6 +9,8 @@
 
 use dokuwiki\ChangeLog\MediaChangeLog;
 use dokuwiki\ChangeLog\PageChangeLog;
+use dokuwiki\File\MediaResolver;
+use dokuwiki\File\PageResolver;
 
 /**
  * Fetch the an ID from request
@@ -213,9 +215,9 @@ function noNSorNS($id) {
     global $conf;
 
     $p = noNS($id);
-    if ($p == $conf['start'] || $p == false) {
+    if ($p === $conf['start'] || $p === false || $p === '') {
         $p = curNS($id);
-        if ($p == false) {
+        if ($p === false || $p === '') {
             return $conf['start'];
         }
     }
@@ -226,7 +228,7 @@ function noNSorNS($id) {
  * Creates a XHTML valid linkid from a given headline title
  *
  * @param string  $title   The headline title
- * @param array|bool   $check   Existing IDs (title => number)
+ * @param array|bool   $check   Existing IDs
  * @return string the title
  *
  * @author Andreas Gohr <andi@splitbrain.org>
@@ -241,15 +243,16 @@ function sectionID($title,&$check) {
     }
 
     if(is_array($check)){
-        // make sure tiles are unique
-        if (!array_key_exists ($title,$check)) {
-            $check[$title] = 0;
-        } else {
-            $title .= ++ $check[$title];
+        $suffix=0;
+        $candidateTitle = $title;
+        while(in_array($candidateTitle, $check)){
+          $candidateTitle = $title . ++$suffix;
         }
+        $check []= $candidateTitle;
+        return $candidateTitle;
+    } else {
+      return $title;
     }
-
-    return $title;
 }
 
 /**
@@ -265,14 +268,35 @@ function sectionID($title,&$check) {
  * @param bool $date_at
  * @return bool exists?
  */
-function page_exists($id,$rev='',$clean=true, $date_at=false) {
-    if($rev !== '' && $date_at) {
+function page_exists($id, $rev = '', $clean = true, $date_at = false) {
+    if ($rev !== '' && $date_at) {
         $pagelog = new PageChangeLog($id);
         $pagelog_rev = $pagelog->getLastRevisionAt($rev);
-        if($pagelog_rev !== false)
+        if ($pagelog_rev !== false)
             $rev = $pagelog_rev;
     }
-    return file_exists(wikiFN($id,$rev,$clean));
+    return file_exists(wikiFN($id, $rev, $clean));
+}
+
+/**
+ * Media existence check
+ *
+ * @param string $id page id
+ * @param string|int $rev empty or revision timestamp
+ * @param bool $clean flag indicating that $id should be cleaned (see mediaFN as well)
+ * @param bool $date_at
+ * @return bool exists?
+ */
+function media_exists($id, $rev = '', $clean = true, $date_at = false)
+{
+    if ($rev !== '' && $date_at) {
+        $changeLog = new MediaChangeLog($id);
+        $changelog_rev = $changeLog->getLastRevisionAt($rev);
+        if ($changelog_rev !== false) {
+            $rev = $changelog_rev;
+        }
+    }
+    return file_exists(mediaFN($id, $rev, $clean));
 }
 
 /**
@@ -449,8 +473,7 @@ function localeFN($id,$ext='txt'){
  * Partyly based on a cleanPath function found at
  * http://php.net/manual/en/function.realpath.php#57016
  *
- * @author <bart at mediawave dot nl>
- *
+ * @deprecated 2020-09-30
  * @param string $ns     namespace which is context of id
  * @param string $id     relative id
  * @param bool   $clean  flag indicating that id should be cleaned
@@ -458,6 +481,7 @@ function localeFN($id,$ext='txt'){
  */
 function resolve_id($ns,$id,$clean=true){
     global $conf;
+    dbg_deprecated(\dokuwiki\File\Resolver::class.' and its children');
 
     // some pre cleaning for useslash:
     if($conf['useslash']) $id = str_replace('/',':',$id);
@@ -466,7 +490,7 @@ function resolve_id($ns,$id,$clean=true){
     // relative stuff
     if($id && $id[0] == '.'){
         // normalize initial dots without a colon
-        $id = preg_replace('/^(\.+)(?=[^:\.])/','\1:',$id);
+        $id = preg_replace('/^((\.+:)*)(\.+)(?=[^:\.])/','\1\3:',$id);
         // prepend the current namespace
         $id = $ns.':'.$id;
 
@@ -499,110 +523,44 @@ function resolve_id($ns,$id,$clean=true){
 /**
  * Returns a full media id
  *
- * @author Andreas Gohr <andi@splitbrain.org>
- *
  * @param string $ns namespace which is context of id
- * @param string &$page (reference) relative media id, updated to resolved id
+ * @param string &$media (reference) relative media id, updated to resolved id
  * @param bool &$exists (reference) updated with existance of media
  * @param int|string $rev
  * @param bool $date_at
+ * @deprecated 2020-09-30
  */
-function resolve_mediaid($ns,&$page,&$exists,$rev='',$date_at=false){
-    $page   = resolve_id($ns,$page);
-    if($rev !== '' &&  $date_at){
-        $medialog = new MediaChangeLog($page);
-        $medialog_rev = $medialog->getLastRevisionAt($rev);
-        if($medialog_rev !== false) {
-            $rev = $medialog_rev;
-        }
-    }
-
-    $file   = mediaFN($page,$rev);
-    $exists = file_exists($file);
+function resolve_mediaid($ns,&$media,&$exists,$rev='',$date_at=false){
+    dbg_deprecated(MediaResolver::class);
+    $resolver = new MediaResolver("$ns:deprecated");
+    $media = $resolver->resolveId($media, $rev, $date_at);
+    $exists = media_exists($media, $rev, false, $date_at);
 }
 
 /**
  * Returns a full page id
  *
- * @author Andreas Gohr <andi@splitbrain.org>
- *
+ * @deprecated 2020-09-30
  * @param string $ns namespace which is context of id
  * @param string &$page (reference) relative page id, updated to resolved id
  * @param bool &$exists (reference) updated with existance of media
  * @param string $rev
  * @param bool $date_at
  */
-function resolve_pageid($ns,&$page,&$exists,$rev='',$date_at=false ){
-    global $conf;
+function resolve_pageid($ns,&$page,&$exists,$rev='',$date_at=false )
+{
+    dbg_deprecated(PageResolver::class);
+
     global $ID;
-    $exists = false;
-
-    //empty address should point to current page
-    if ($page === "") {
-        $page = $ID;
-    }
-
-    //keep hashlink if exists then clean both parts
-    if (strpos($page,'#')) {
-        list($page,$hash) = explode('#',$page,2);
+    if(getNS($ID) == $ns) {
+        $context = $ID; // this is usually the case
     } else {
-        $hash = '';
-    }
-    $hash = cleanID($hash);
-    $page = resolve_id($ns,$page,false); // resolve but don't clean, yet
-
-    // get filename (calls clean itself)
-    if($rev !== '' && $date_at) {
-        $pagelog = new PageChangeLog($page);
-        $pagelog_rev = $pagelog->getLastRevisionAt($rev);
-        if($pagelog_rev !== false)//something found
-           $rev  = $pagelog_rev;
-    }
-    $file = wikiFN($page,$rev);
-
-    // if ends with colon or slash we have a namespace link
-    if(in_array(substr($page,-1), array(':', ';')) ||
-       ($conf['useslash'] && substr($page,-1) == '/')){
-        if(page_exists($page.$conf['start'],$rev,true,$date_at)){
-            // start page inside namespace
-            $page = $page.$conf['start'];
-            $exists = true;
-        }elseif(page_exists($page.noNS(cleanID($page)),$rev,true,$date_at)){
-            // page named like the NS inside the NS
-            $page = $page.noNS(cleanID($page));
-            $exists = true;
-        }elseif(page_exists($page,$rev,true,$date_at)){
-            // page like namespace exists
-            $page = $page;
-            $exists = true;
-        }else{
-            // fall back to default
-            $page = $page.$conf['start'];
-        }
-    }else{
-        //check alternative plural/nonplural form
-        if(!file_exists($file)){
-            if( $conf['autoplural'] ){
-                if(substr($page,-1) == 's'){
-                    $try = substr($page,0,-1);
-                }else{
-                    $try = $page.'s';
-                }
-                if(page_exists($try,$rev,true,$date_at)){
-                    $page   = $try;
-                    $exists = true;
-                }
-            }
-        }else{
-            $exists = true;
-        }
+        $context = "$ns:deprecated"; // only used when a different context namespace was given
     }
 
-    // now make sure we have a clean page
-    $page = cleanID($page);
-
-    //add hash if any
-    if(!empty($hash)) $page .= '#'.$hash;
+    $resolver = new PageResolver($context);
+    $page = $resolver->resolveId($page, $rev, $date_at);
+    $exists = page_exists($page, $rev, false, $date_at);
 }
 
 /**

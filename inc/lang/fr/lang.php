@@ -3,7 +3,10 @@
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  *
- * @author Schplurtz le Déboulonné <Schplurtz@laposte.net>
+ * @author Schplurtz le Déboulonné <schplurtz@laposte.net>
+ * @author Olivier Humbert <trebmuh@tuxfamily.org>
+ * @author Nicolas Friedli <nicolas@theologique.ch>
+ * @author Pierre Henriot <pierre.henriot@gmail.com>
  * @author PaliPalo <palipalo@hotmail.fr>
  * @author Laurent Ponthieu <contact@coopindus.fr>
  * @author Damien Regad <dregad@mantisbt.org>
@@ -41,7 +44,6 @@
  * @author Pietroni <pietroni@informatique.univ-paris-diderot.fr>
  * @author Floriang <antispam@floriang.eu>
  * @author Eric <ericstevenart@netc.fr>
- * @author Olivier Humbert <trebmuh@tuxfamily.org>
  */
 $lang['encoding']              = 'utf-8';
 $lang['direction']             = 'ltr';
@@ -146,6 +148,7 @@ $lang['js']['media_done_btn']  = 'Terminé';
 $lang['js']['media_drop']      = 'Déposez des fichiers ici pour les envoyer';
 $lang['js']['media_cancel']    = 'supprimer';
 $lang['js']['media_overwrt']   = 'Écraser les fichiers existants';
+$lang['js']['data_insecure']   = 'ATTENTION : votre répertoire de données ne semble pas correctement sécurisé. Veuillez lire <a href="https://www.dokuwiki.org/fr:security#securite_de_l_acces_web">Sécurité de l\'accès web (en français)</a> ou <a href="https://www.dokuwiki.org/security#web_access_security">Web Access Security in DokuWiki (en anglais)</a>.';
 $lang['search_exact_match']    = 'Correspondance exacte';
 $lang['search_starts_with']    = 'Commence par';
 $lang['search_ends_with']      = 'Se termine par';
@@ -184,7 +187,7 @@ $lang['resendpwd']             = 'Définir un nouveau mot de passe pour';
 $lang['resendpwdmissing']      = 'Désolé, vous devez remplir tous les champs.';
 $lang['resendpwdnouser']       = 'Désolé, cet utilisateur n\'existe pas dans notre base de données.';
 $lang['resendpwdbadauth']      = 'Désolé, ce code d\'authentification est invalide. Assurez-vous d\'avoir utilisé le lien de confirmation intégral.';
-$lang['resendpwdconfirm']      = 'Un lien de confirmation a été expédié par courriel.';
+$lang['resendpwdconfirm']      = 'Un lien de confirmation vient de partir par courriel.';
 $lang['resendpwdsuccess']      = 'Votre nouveau mot de passe vous a été expédié par courriel.';
 $lang['license']               = 'Sauf mention contraire, le contenu de ce wiki est placé sous les termes de la licence suivante :';
 $lang['licenseok']             = 'Note : En modifiant cette page, vous acceptez que le contenu soit placé sous les termes de la licence suivante :';
@@ -194,6 +197,7 @@ $lang['txt_upload']            = 'Sélectionnez un fichier à envoyer:';
 $lang['txt_filename']          = 'Envoyer en tant que (optionnel):';
 $lang['txt_overwrt']           = 'Écraser le fichier cible (s\'il existe)';
 $lang['maxuploadsize']         = 'Taille d\'envoi maximale : %s par fichier';
+$lang['allowedmime']           = 'Liste des extensions de fichier autorisées';
 $lang['lockedby']              = 'Actuellement bloqué par:';
 $lang['lockexpire']            = 'Le blocage expire à:';
 $lang['rssfailed']             = 'Une erreur s\'est produite en récupérant ce flux : ';
@@ -247,7 +251,7 @@ $lang['created']               = 'créée';
 $lang['restored']              = 'ancienne révision (%s) restaurée';
 $lang['external_edit']         = 'modification externe';
 $lang['summary']               = 'Résumé';
-$lang['noflash']               = 'L\'<a href="http://www.adobe.com/products/flashplayer/">extension Adobe Flash</a> est nécessaire pour afficher ce contenu.';
+$lang['noflash']               = 'L\'<a href="http://get.adobe.com/flashplayer">extension Adobe Flash</a> est nécessaire pour afficher ce contenu.';
 $lang['download']              = 'Télécharger cet extrait';
 $lang['tools']                 = 'Outils';
 $lang['user_tools']            = 'Outils pour utilisateurs';
@@ -301,9 +305,9 @@ $lang['img_artist']            = 'Photographe:';
 $lang['img_copyr']             = 'Copyright:';
 $lang['img_format']            = 'Format:';
 $lang['img_camera']            = 'Appareil photo:';
-$lang['img_keywords']          = 'Mots-clés:';
-$lang['img_width']             = 'Largeur:';
-$lang['img_height']            = 'Hauteur:';
+$lang['img_keywords']          = 'Mots-clés :';
+$lang['img_width']             = 'Largeur :';
+$lang['img_height']            = 'Hauteur :';
 $lang['subscr_subscribe_success'] = '%s a été ajouté à la liste des abonnés à %s';
 $lang['subscr_subscribe_error'] = 'Erreur à l\'ajout de %s à la liste des abonnés de %s';
 $lang['subscr_subscribe_noaddress'] = 'Il n\'y a pas d\'adresse associée à votre identifiant, vous ne pouvez pas être ajouté à la liste des abonnés.';
@@ -327,10 +331,13 @@ $lang['i_wikiname']            = 'Nom du wiki';
 $lang['i_enableacl']           = 'Activer le contrôle d\'accès (recommandé)';
 $lang['i_superuser']           = 'Super-utilisateur';
 $lang['i_problems']            = 'L\'installateur a détecté les problèmes indiqués ci-dessous. Vous ne pouvez pas poursuivre l\'installation tant qu\'ils n\'auront pas été corrigés.';
-$lang['i_modified']            = 'Pour des raisons de sécurité, ce script ne fonctionne qu\'avec une installation neuve et non modifiée de DokuWiki. Vous devriez ré-extraire les fichiers depuis le paquet téléchargé ou consulter les <a href="http://dokuwiki.org/install">instructions d\'installation de DokuWiki</a>';
+$lang['i_modified']            = 'Pour des raisons de sécurité, ce script ne fonctionne qu\'avec une installation neuve et non modifiée de DokuWiki. Vous devriez ré-extraire les fichiers depuis le paquet téléchargé ou consulter les <a href="https://www.dokuwiki.org/install">instructions d\'installation de DokuWiki</a>';
 $lang['i_funcna']              = 'La fonction PHP <code>%s</code> n\'est pas disponible. Peut-être que votre hébergeur web l\'a désactivée ?';
+$lang['i_disabled']            = 'Elle a été désactivée par votre hébergeur';
+$lang['i_funcnmail']           = '<b>Note:</b> La fonction PHP mail n\'est pas disponible. %s Si vous ne pouvez pas l\'activer, vous pourriez installer le <a href="https://www.dokuwiki.org/plugin:smtp">greffon smtp</a>.';
 $lang['i_phpver']              = 'Votre version de PHP (%s) est antérieure à la version requise (%s). Vous devez mettre à jour votre installation de PHP.';
 $lang['i_mbfuncoverload']      = 'Il faut désactiver mbstring.func_overload dans php.ini pour DokuWiki';
+$lang['i_urandom']             = 'DokuWiki ne peut créer de nombres cryptographiquement sûrs pour les cookies. Vous voudrez peut-être vérifier que le réglage open_basedir dans php.ini permet l\'accès à <code>/dev/urandom</code>.';
 $lang['i_permfail']            = '<code>%s</code> n\'est pas accessible en écriture pour DokuWiki. Vous devez corriger les autorisations de ce répertoire !';
 $lang['i_confexists']          = '<code>%s</code> existe déjà';
 $lang['i_writeerr']            = 'Impossible de créer <code>%s</code>. Vous devez vérifier les autorisations des répertoires/fichiers et créer le fichier manuellement.';
@@ -381,11 +388,12 @@ $lang['media_perm_upload']     = 'Désolé, vous n\'avez pas l\'autorisation d\'
 $lang['media_update']          = 'Envoyer une nouvelle version';
 $lang['media_restore']         = 'Restaurer cette version';
 $lang['media_acl_warning']     = 'En raison des restrictions dans les ACL et de pages cachées, cette liste peut ne pas être complète.';
+$lang['email_fail']            = 'La fonction PHP mail() est absente ou désactivée. Le message suivant n’est pas parti :';
 $lang['currentns']             = 'Catégorie courante';
 $lang['searchresult']          = 'Résultat de la recherche';
 $lang['plainhtml']             = 'HTML brut';
 $lang['wikimarkup']            = 'Wiki balise';
 $lang['page_nonexist_rev']     = 'La page n\'existait pas le %s. Elle a été créée le <a href="%s">%s</a>.';
-$lang['unable_to_parse_date']  = 'Ne peut analyser le paramètre date "%s".';
+$lang['unable_to_parse_date']  = 'Impossible d\'analyser le paramètre temporel at "%s".';
 $lang['email_signature_text']  = 'Courriel envoyé par DokuWiki depuis
 @DOKUWIKIURL@';

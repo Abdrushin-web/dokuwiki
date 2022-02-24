@@ -34,6 +34,7 @@ class admin_plugin_styling extends DokuWiki_Admin_Plugin
         global $INPUT;
         $run = $INPUT->extract('run')->str('run');
         if (!$run) return;
+        if(!checkSecurityToken()) return;
         $run = 'run'.ucfirst($run);
         $this->$run();
     }
@@ -60,7 +61,7 @@ class admin_plugin_styling extends DokuWiki_Admin_Plugin
         global $conf;
         global $ID;
 
-        $styleUtil = new \dokuwiki\StyleUtils($conf['template'], true);
+        $styleUtil = new \dokuwiki\StyleUtils($conf['template'], true, true);
         $styleini     = $styleUtil->cssStyleini();
         $replacements = $styleini['replacements'];
 
@@ -76,6 +77,7 @@ class admin_plugin_styling extends DokuWiki_Admin_Plugin
             echo $this->locale_xhtml('intro');
 
             echo '<form class="styling" method="post" action="'.$target.'">';
+            formSecurityToken();
 
             echo '<table><tbody>';
             foreach ($replacements as $key => $value) {
@@ -85,8 +87,8 @@ class admin_plugin_styling extends DokuWiki_Admin_Plugin
 
                 echo '<tr>';
                 echo '<td><label for="tpl__'.hsc($key).'">'.$name.'</label></td>';
-                echo '<td><input type="text" name="tpl['.hsc($key).']" id="tpl__'.hsc($key).'" 
-                    value="'.hsc($value).'" '.$this->colorClass($key).' dir="ltr" /></td>';
+                echo '<td><input type="'.$this->colorType($value).'" name="tpl['.hsc($key).']" id="tpl__'.hsc($key).'"
+                    value="'.hsc($this->colorValue($value)).'" dir="ltr" required="required"/></td>';
                 echo '</tr>';
             }
             echo '</tbody></table>';
@@ -114,29 +116,31 @@ class admin_plugin_styling extends DokuWiki_Admin_Plugin
     }
 
     /**
-     * set the color class attribute
+     * Adjust three char color codes to the 6 char one supported by browser's color input
+     *
+     * @param string $value
+     * @return string
      */
-    protected function colorClass($key)
+    protected function colorValue($value)
     {
-        static $colors = array(
-            'text',
-            'background',
-            'text_alt',
-            'background_alt',
-            'text_neu',
-            'background_neu',
-            'border',
-            'highlight',
-            'background_site',
-            'link',
-            'existing',
-            'missing',
-        );
+        if (preg_match('/^#([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])$/', $value, $match)) {
+            return '#' . $match[1] . $match[1] . $match[2] . $match[2] . $match[3] . $match[3];
+        }
+        return $value;
+    }
 
-        if (preg_match('/colou?r/', $key) || in_array(trim($key, '_'), $colors)) {
-            return 'class="color"';
+    /**
+     * Decide the input type based on the value
+     *
+     * @param string $value
+     * @return string color|text
+     */
+    protected function colorType($value)
+    {
+        if (preg_match('/^#([0-9a-fA-F]{3}){1,2}$/', $value)) {
+            return 'color';
         } else {
-            return '';
+            return 'text';
         }
     }
 

@@ -13,11 +13,15 @@ body
     top: 0;
     left: 0;
     padding: 5px 10px!important;
-    background: white;
+    background: rgba(255, 255, 255, 0.7);
     z-index: 100;
     border: 1px solid #eee;
     box-shadow: 0 0 0.5em #999;
     border-radius: 0 0 10px 0;
+}
+
+.sticky:hover {
+    background: white;
 }
 
 .breadcrumbs .logo {
@@ -83,6 +87,41 @@ h1, h2, h3
     hyphens: auto;
 }
 
+blockquote
+{
+    text-align: justify;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+}
+
+/*.page h1 + div > p:first-child::first-letter {
+    font-size: 555%;
+    display: block;
+    float: left;
+    line-height: .4;
+    margin: .15em .1em .15em 0;
+}
+
+.page h1 + div > p:first-child {
+    text-indent: 0;
+}
+
+.page h2 + div > p:first-child {
+    text-indent: 0;
+}
+
+.page h2 + div > p:first-child::first-letter {
+    font-size: 555%;
+    display: block;
+    float: left;
+    line-height: .4;
+    margin: .15em .1em .15em 0;
+} */
+
 em {
     font-weight: bold;
 }
@@ -108,4 +147,32 @@ ul.idx li
 */
 br.page-break-after:always ~ p {
     border-top: 1px dashed
+}
+
+
+.dokuwiki .page h1,
+.dokuwiki .page h2,
+.dokuwiki .page h3,
+.dokuwiki .page h4,
+.dokuwiki .page h5 {
+    position: relative;
+}
+ 
+.dokuwiki span.wikiLink {
+    display: none;
+    color: #999;
+    background-color: #fff;
+    font: normal 11px Arial, sans-serif;
+    padding: 0 5px;
+    position: absolute;
+    top: -1em;
+    left: 0;
+}
+ 
+.dokuwiki .page h1:hover span.wikiLink,
+.dokuwiki .page h2:hover span.wikiLink,
+.dokuwiki .page h3:hover span.wikiLink,
+.dokuwiki .page h4:hover span.wikiLink,
+.dokuwiki .page h5:hover span.wikiLink {
+    display: block;
 }

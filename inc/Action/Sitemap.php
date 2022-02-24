@@ -3,6 +3,8 @@
 namespace dokuwiki\Action;
 
 use dokuwiki\Action\Exception\FatalException;
+use dokuwiki\Sitemap\Mapper;
+use dokuwiki\Utf8\PhpString;
 
 /**
  * Class Sitemap
@@ -32,8 +34,8 @@ class Sitemap extends AbstractAction {
             throw new FatalException('Sitemap generation is disabled', 404);
         }
 
-        $sitemap = Sitemap::getFilePath();
-        if(Sitemap::sitemapIsCompressed()) {
+        $sitemap = Mapper::getFilePath();
+        if(Mapper::sitemapIsCompressed()) {
             $mime = 'application/x-gzip';
         } else {
             $mime = 'application/xml; charset=utf-8';
@@ -41,13 +43,13 @@ class Sitemap extends AbstractAction {
 
         // Check if sitemap file exists, otherwise create it
         if(!is_readable($sitemap)) {
-            Sitemap::generate();
+            Mapper::generate();
         }
 
         if(is_readable($sitemap)) {
             // Send headers
             header('Content-Type: ' . $mime);
-            header('Content-Disposition: attachment; filename=' . \dokuwiki\Utf8\PhpString::basename($sitemap));
+            header('Content-Disposition: attachment; filename=' . PhpString::basename($sitemap));
 
             http_conditionalRequest(filemtime($sitemap));
 

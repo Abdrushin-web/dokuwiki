@@ -9,14 +9,6 @@
 
 namespace dokuwiki\Parsing\Lexer;
 
-// FIXME move elsewhere
-
-define("DOKU_LEXER_ENTER", 1);
-define("DOKU_LEXER_MATCHED", 2);
-define("DOKU_LEXER_UNMATCHED", 3);
-define("DOKU_LEXER_EXIT", 4);
-define("DOKU_LEXER_SPECIAL", 5);
-
 /**
  * Accepts text and breaks it into tokens.
  *
@@ -165,6 +157,16 @@ class Lexer
             return false;
         }
         return $this->invokeHandler($raw, DOKU_LEXER_UNMATCHED, $pos);
+    }
+
+    /**
+     * Gives plugins access to the mode stack
+     *
+     * @return StateStack
+     */
+    public function getModeStack()
+    {
+        return $this->modeStack;
     }
 
     /**

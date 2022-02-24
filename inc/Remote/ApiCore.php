@@ -6,6 +6,7 @@ use Doku_Renderer_xhtml;
 use dokuwiki\ChangeLog\MediaChangeLog;
 use dokuwiki\ChangeLog\PageChangeLog;
 use dokuwiki\Extension\Event;
+use dokuwiki\Utf8\Sort;
 
 define('DOKU_API_VERSION', 10);
 
@@ -35,7 +36,7 @@ class ApiCore
      *
      * @return array
      */
-    public function __getRemoteInfo()
+    public function getRemoteInfo()
     {
         return array(
             'dokuwiki.getVersion' => array(
@@ -142,11 +143,11 @@ class ApiCore
             ), 'wiki.getRecentChanges' => array(
                 'args' => array('int'),
                 'return' => 'array',
-                'Returns a struct about all recent changes since given timestamp.'
+                'doc' => 'Returns a struct about all recent changes since given timestamp.'
             ), 'wiki.getRecentMediaChanges' => array(
                 'args' => array('int'),
                 'return' => 'array',
-                'Returns a struct about all recent media changes since given timestamp.'
+                'doc' => 'Returns a struct about all recent media changes since given timestamp.'
             ), 'wiki.aclCheck' => array(
                 'args' => array('string', 'string', 'array'),
                 'return' => 'int',
@@ -310,6 +311,7 @@ class ApiCore
         $list = array();
         $pages = idx_get_indexer()->getPages();
         $pages = array_filter(array_filter($pages, 'isVisiblePage'), 'page_exists');
+        Sort::ksort($pages);
 
         foreach (array_keys($pages) as $idx) {
             $perm = auth_quickaclcheck($pages[$idx]);
@@ -336,7 +338,7 @@ class ApiCore
      *    $opts['hash']    do md5 sum of content?
      * @return array
      */
-    public function readNamespace($ns, $opts)
+    public function readNamespace($ns, $opts = array())
     {
         global $conf;
 
@@ -508,7 +510,7 @@ class ApiCore
      * @throws AccessDeniedException no write access for page
      * @throws RemoteException no id, empty new page or locked
      */
-    public function putPage($id, $text, $params)
+    public function putPage($id, $text, $params = array())
     {
         global $TEXT;
         global $lang;
@@ -571,7 +573,7 @@ class ApiCore
      * @return bool|string
      * @throws RemoteException
      */
-    public function appendPage($id, $text, $params)
+    public function appendPage($id, $text, $params = array())
     {
         $currentpage = $this->rawPage($id);
         if (!is_string($currentpage)) {
@@ -610,7 +612,7 @@ class ApiCore
      * @return false|string
      * @throws RemoteException
      */
-    public function putAttachment($id, $file, $params)
+    public function putAttachment($id, $file, $params = array())
     {
         $id = cleanID($id);
         $auth = auth_quickaclcheck(getNS($id) . ':*');
@@ -836,7 +838,7 @@ class ApiCore
      * @throws AccessDeniedException no read access for page
      * @throws RemoteException empty id
      */
-    public function pageVersions($id, $first)
+    public function pageVersions($id, $first = 0)
     {
         $id = $this->resolvePageId($id);
         if (auth_quickaclcheck($id) < AUTH_READ) {
@@ -972,9 +974,11 @@ class ApiCore
         if (!$auth) return 0;
 
         @session_start(); // reopen session for login
+        $ok = null;
         if ($auth->canDo('external')) {
             $ok = $auth->trustExternal($user, $pass, false);
-        } else {
+        }
+        if ($ok === null){
             $evdata = array(
                 'user' => $user,
                 'password' => $pass,

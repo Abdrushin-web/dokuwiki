@@ -817,7 +817,7 @@ abstract class Doku_Renderer extends Plugin {
      * @param string $name
      * @return string
      */
-    protected function _simpleTitle($name) {
+    public function _simpleTitle($name) {
         global $conf;
 
         //if there is a hash we use the ancor name only
@@ -889,7 +889,7 @@ abstract class Doku_Renderer extends Plugin {
             $url = $url.rawurlencode($reference);
         }
         //handle as wiki links
-        if($url[0] === ':') {
+        if($url && $url[0] === ':') {
             $urlparam = null;
             $id = $url;
             if (strpos($url, '?') !== false) {

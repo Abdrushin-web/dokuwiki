@@ -378,7 +378,7 @@ EOT;
     if ($d['acl']) {
         // hash the password
         $phash = new \dokuwiki\PassHash();
-        $pass = $phash->hash_smd5($d['password']);
+        $pass = $phash->hash_bcrypt($d['password']);
 
         // create users.auth.php
         $output = <<<EOT
@@ -395,7 +395,7 @@ EOT;
 # login:passwordhash:Real Name:email:groups,comma,separated
 
 EOT;
-        // --- user:SMD5password:Real Name:email:groups,comma,seperated
+        // --- user:bcryptpasswordhash:Real Name:email:groups,comma,seperated
         $output = $output."\n".join(":",array($d['superuser'], $pass, $d['fullname'], $d['email'], 'admin,user'))."\n";
         $ok = $ok && fileWrite(DOKU_LOCAL.'users.auth.php', $output);
 
@@ -424,7 +424,7 @@ EOT;
     }
 
     // enable popularity submission
-    if($d['pop']){
+    if(isset($d['pop']) && $d['pop']){
         @touch(DOKU_INC.'data/cache/autosubmit.txt');
     }
 
@@ -569,7 +569,6 @@ function check_functions(){
         random_bytes(1);
     } catch (\Exception $th) {
         // If an appropriate source of randomness cannot be found, an Exception will be thrown by PHP 7+
-        // this exception is also thrown by paragonie/random_compat for PHP 5.6 support
         $error[] = $lang['i_urandom'];
         $ok = false;
     }
@@ -581,15 +580,25 @@ function check_functions(){
 
     $funcs = explode(' ','addslashes call_user_func chmod copy fgets '.
                          'file file_exists fseek flush filesize ftell fopen '.
-                         'glob header ignore_user_abort ini_get mail mkdir '.
+                         'glob header ignore_user_abort ini_get mkdir '.
                          'ob_start opendir parse_ini_file readfile realpath '.
                          'rename rmdir serialize session_start unlink usleep '.
                          'preg_replace file_get_contents htmlspecialchars_decode '.
-                         'spl_autoload_register stream_select fsockopen pack');
+                         'spl_autoload_register stream_select fsockopen pack xml_parser_create');
 
     if (!function_exists('mb_substr')) {
         $funcs[] = 'utf8_encode';
         $funcs[] = 'utf8_decode';
+    }
+
+    if(!function_exists('mail')){
+        if(strpos(ini_get('disable_functions'),'mail') !== false) {
+            $disabled = $lang['i_disabled'];
+        }
+        else {
+            $disabled = "";
+        }
+        $error[] = sprintf($lang['i_funcnmail'],$disabled);
     }
 
     foreach($funcs as $func){
