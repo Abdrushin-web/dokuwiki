@@ -53,7 +53,7 @@ function selectLink(event)
 }
  
 function addWikiLinksToHeadlines() {
-    var heads = jQuery('.page h1, .page h2, .page h3, .page h4, .page h5');
+    var heads = jQuery('.page :not(div.ProseMirror) h1, .page :not(div.ProseMirror) h2, .page :not(div.ProseMirror) h3, .page :not(div.ProseMirror) h4, .page :not(div.ProseMirror) h5');
     heads.click(selectLink);	// bind selection on mouse click
     var anchorId;
     heads.each(function(){
@@ -65,4 +65,4 @@ function addWikiLinksToHeadlines() {
     });
 }
  
-jQuery(addWikiLinksToHeadlines);
+//jQuery(addWikiLinksToHeadlines);

@@ -6,6 +6,8 @@ use dokuwiki\ChangeLog\RevisionInfo;
 use dokuwiki\Form\Form;
 use InlineDiffFormatter;
 use TableDiffFormatter;
+use dokuwiki\Ui\DiffItem;
+use dokuwiki\Ui\PageDiffItem;
 
 /**
  * DokuWiki PageDiff Interface

@@ -82,6 +82,7 @@
 !/lib/plugins/odt
 !/lib/plugins/pagebreak
 !/lib/plugins/prosemirror
+!/lib/plugins/translation
 !/lib/plugins/wrap
 lib/images/*/local/*
 

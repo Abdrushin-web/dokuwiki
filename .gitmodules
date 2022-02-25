@@ -34,3 +34,6 @@
 [submodule "lib/plugins/prosemirror"]
 	path = lib/plugins/prosemirror
 	url = https://github.com/Abdrushin-web/dokuwiki-plugin-prosemirror
+[submodule "lib/plugins/translation"]
+	path = lib/plugins/translation
+	url = https://github.com/Abdrushin-web/dokuwiki-plugin-translation

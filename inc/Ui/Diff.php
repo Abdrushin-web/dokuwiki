@@ -2,7 +2,7 @@
 
 namespace dokuwiki\Ui;
 
-use dokuwiki\ChangeLog\ChangeLog;
+use dokuwiki\Ui\DiffItem;
 
 /**
  * DokuWiki Diff Interface
