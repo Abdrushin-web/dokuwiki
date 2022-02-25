@@ -11,7 +11,7 @@
 .settings/
 
 # DokuWiki
-.htaccess
+# .htaccess
 /conf/*.local.conf
 # !/conf/entities.local.conf
 # !/conf/interwiki.local.conf
