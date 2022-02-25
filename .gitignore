@@ -71,6 +71,18 @@
 !/lib/plugins/index.html
 !/lib/plugins/remote.php
 !/lib/plugins/syntax.php
+!/lib/plugins/addnewpage
+!/lib/plugins/bookcreator
+!/lib/plugins/dw2pdf
+!/lib/plugins/epub
+!/lib/plugins/navigation
+!/lib/plugins/move
+!/lib/plugins/multilingual
+!/lib/plugins/noprint
+!/lib/plugins/odt
+!/lib/plugins/pagebreak
+!/lib/plugins/prosemirror
+!/lib/plugins/wrap
 lib/images/*/local/*
 
 # composer default ignores

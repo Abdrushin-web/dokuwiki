@@ -1,0 +1,36 @@
+[submodule "lib/plugins/addnewpage"]
+	path = lib/plugins/addnewpage
+	url = https://github.com/Abdrushin-web/dokuwiki-plugin-addnewpage
+[submodule "lib/plugins/dw2pdf"]
+	path = lib/plugins/dw2pdf
+	url = https://github.com/Abdrushin-web/dokuwiki-plugin-dw2pdf
+[submodule "lib/plugins/epub"]
+	path = lib/plugins/epub
+	url = https://github.com/Abdrushin-web/dokuwiki-plugin-epub
+[submodule "lib/plugins/navigation"]
+	path = lib/plugins/navigation
+	url = https://github.com/Abdrushin-web/dokuwiki-plugin-navigation
+[submodule "lib/plugins/wrap"]
+	path = lib/plugins/wrap
+	url = https://github.com/Abdrushin-web/dokuwiki-plugin-wrap
+[submodule "lib/plugins/bookcreator"]
+	path = lib/plugins/bookcreator
+	url = https://github.com/Abdrushin-web/dokuwiki-plugin-bookcreator
+[submodule "lib/plugins/move"]
+	path = lib/plugins/move
+	url = https://github.com/Abdrushin-web/dokuwiki-plugin-move
+[submodule "lib/plugins/multilingual"]
+	path = lib/plugins/multilingual
+	url = https://github.com/Abdrushin-web/dokuwiki-plugin-multilingual
+[submodule "lib/plugins/noprint"]
+	path = lib/plugins/noprint
+	url = https://github.com/Abdrushin-web/dokuwiki-plugin-noprint
+[submodule "lib/plugins/odt"]
+	path = lib/plugins/odt
+	url = https://github.com/Abdrushin-web/dokuwiki-plugin-odt
+[submodule "lib/plugins/pagebreak"]
+	path = lib/plugins/pagebreak
+	url = https://github.com/Abdrushin-web/dokuwiki-plugin-pagebreak
+[submodule "lib/plugins/prosemirror"]
+	path = lib/plugins/prosemirror
+	url = https://github.com/Abdrushin-web/dokuwiki-plugin-prosemirror
