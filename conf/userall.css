@@ -1,12 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Lora&display=swap');
 
-body
+html, body
 {
     font-family: 'Lora', serif;
     font-size: 100%;
+    background: none;
 }
 
-.sticky {
+#dokuwiki__pagetools {
+    top: 0!important;
+}
+
+/* .sticky {
     display: flex;
     align-items: center;
     position: fixed;
@@ -35,7 +40,7 @@ body
 
 .sticky .bchead {
     display: none;
-}
+} */
 
 .pageId {
   display: none;
@@ -85,6 +90,10 @@ h1, h2, h3
     -webkit-hyphens: auto;
     -moz-hyphens: auto;
     hyphens: auto;
+}
+
+li {
+    text-indent: 0;
 }
 
 blockquote
@@ -175,4 +184,18 @@ br.page-break-after:always ~ p {
 .dokuwiki .page h4:hover span.wikiLink,
 .dokuwiki .page h5:hover span.wikiLink {
     display: block;
+}
+
+/* fix style for ebook readers (Boox Note 5) */
+.dokuwiki a.urlextern,
+.dokuwiki a.windows,
+.dokuwiki a.mail,
+.dokuwiki a.mediafile,
+.dokuwiki a.interwiki {
+    background-position: left center;
+}
+
+.wrap_center table {
+    margin-left: auto;
+    margin-right: auto;
 }
