@@ -71,7 +71,7 @@ if (!defined('DOKU_INC')) die();
         <div class="breadcrumbs">
             <?php if($conf['youarehere']): ?>
                 <div class="youarehere">
-                    <img class="logo" src="<?php echo tpl_getMediaFile([":logo.24.png"]) ?>"/>
+                    <!--<img class="logo" src="<?php echo tpl_getMediaFile([":logo.24.png"]) ?>"/>-->
                     <span class="crumbs"><?php tpl_youarehere() ?></span>
                 </div>
             <?php endif ?>

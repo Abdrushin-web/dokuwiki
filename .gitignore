@@ -112,9 +112,11 @@ vendor/splitbrain/php-cli/examples/*
 vendor/splitbrain/php-cli/screenshot*
 vendor/splitbrain/php-cli/generate-api.sh
 vendor/splitbrain/php-cli/apigen.neon
+
 .vs/
 .vscode/
 bak/
+**/.thumb
 
 # PHPUnit tests
 phpunit.phar
